@@ -8,13 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout Code (Updated to v4)
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Step 2: Buildozer (User Permission Fix)
-      # हम सीधे docker इमेज को user permission के साथ रन करेंगे
       - name: Build with Buildozer
+        # यह वाला Action सबसे नया है और इसमें 'user' वाली दिक्कत नहीं आती
         uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
         with:
@@ -22,9 +20,8 @@ jobs:
           buildozer_version: stable
           workdir: .
 
-      # Step 3: Upload Artifact (Updated to v4)
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: DK-Jan-Suvidha-App
-          path: ${{ steps.buildozer.outputs.filename }}
+          path: bin/*.apk
