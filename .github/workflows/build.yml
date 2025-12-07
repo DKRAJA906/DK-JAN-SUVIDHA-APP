@@ -1,12 +1,17 @@
 name: Build APK
-on: [push]
+on:
+  push:
+    branches: [ main ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
+      # यह नया एक्शन है जो chown एरर नहीं देता
       - name: Build with Buildozer
         uses: ArtemSBulgakov/buildozer-action@v1.2.0
         id: buildozer
@@ -15,9 +20,8 @@ jobs:
           buildozer_version: stable
           workdir: .
 
-      - name: Upload APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: my-android-app
           path: ${{ steps.buildozer.outputs.filename }}
-
